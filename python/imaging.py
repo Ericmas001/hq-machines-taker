@@ -11,13 +11,14 @@ from util import Console
 from models import PictureConfig
 from models import TakenPicture
 
-path_last_config = "/pics/{0}_last_config.json"
+path_last_config = "{0}{1}_last_config.json"
 
 
 class ImagingSystem:
 
-    def __init__(self, camera):
+    def __init__(self, camera, app_config):
         self.camera = camera
+        self.app_config = app_config
         self.last_stopped_reason = "unknown"
         self.last_count = "unknown"
 
@@ -35,7 +36,8 @@ class ImagingSystem:
             (float(101) - (float(nb_ss) / float(100))) / float(100))
         self.camera.shutter_speed = 1000 * nb_ss
 
-        Console.Write("[{0}] Taking Picture ! setting={1}, ss={2}: ",datetime.today().strftime("%Y-%m-%d %H:%M:%S"), nb_ss, self.camera.shutter_speed)
+        Console.Write("[{0}] Taking Picture ! setting={1}, ss={2}: ",
+                      datetime.today().strftime("%Y-%m-%d %H:%M:%S"), nb_ss, self.camera.shutter_speed)
         self.camera.capture(my_stream, 'jpeg')
         my_stream.seek(0)
         return my_stream
@@ -45,7 +47,7 @@ class ImagingSystem:
         self.camera.rotation = machine_cfg.photo_rotation
         last_photoshoot = None
         if os.path.isfile(path_last_config.format(machine_key)):
-            with open(path_last_config.format(machine_key), 'r') as content_file:
+            with open(path_last_config.format(self.app_config.root_path, machine_key), 'r') as content_file:
                 j = json.loads(content_file.read())
                 last_photoshoot = PictureConfig(
                     j["shutter_speed"], j["brightness"], j["delta"])

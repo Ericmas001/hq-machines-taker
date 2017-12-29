@@ -29,3 +29,11 @@ class HqMachineConfig:
         self.picture_top_margin = float(config[HqMachineConfig.taker_key]["PictureTopMargin"])
         self.photo_rotation = int(config[HqMachineConfig.taker_key]["PhotoRotation"])
         self.max_ss = float(config[HqMachineConfig.taker_key]["MaxSS"])
+
+class AppConfig:
+
+    def __init__(self, config):
+        self.taker_name = config["taker_name"]
+        self.api_key = config["api_key"]
+        self.url_hq = config["url_hq"]
+        self.root_path = config["root_path"]
