@@ -46,7 +46,7 @@ class ImagingSystem:
         machine_key = machine_cfg.display_name
         self.camera.rotation = machine_cfg.photo_rotation
         last_photoshoot = None
-        if os.path.isfile(path_last_config.format(machine_key)):
+        if os.path.isfile(path_last_config.format(self.app_config.root_path, machine_key)):
             with open(path_last_config.format(self.app_config.root_path, machine_key), 'r') as content_file:
                 j = json.loads(content_file.read())
                 last_photoshoot = PictureConfig(
@@ -162,7 +162,7 @@ class ImagingSystem:
 
         current.img.seek(0)
 
-        cfg = open(path_last_config.format(machine_key), "w")
+        cfg = open(path_last_config.format(self.app_config.root_path, machine_key), "w")
         cfg.write(json.dumps(
             {
                 'shutter_speed': current.shutter_speed,
