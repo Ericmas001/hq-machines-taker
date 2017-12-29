@@ -26,9 +26,9 @@ class HqMachineConfig:
         self.max_try = int(config[HqMachineConfig.taker_key]["MaxTry"])
         self.accepted_delta = float(config[HqMachineConfig.taker_key]["AcceptedDelta"])
         self.picture_left_margin = int(config[HqMachineConfig.taker_key]["PictureLeftMargin"])
-        self.picture_top_margin = float(config[HqMachineConfig.taker_key]["PictureTopMargin"])
+        self.picture_top_margin = int(config[HqMachineConfig.taker_key]["PictureTopMargin"])
         self.photo_rotation = int(config[HqMachineConfig.taker_key]["PhotoRotation"])
-        self.max_ss = float(config[HqMachineConfig.taker_key]["MaxSS"])
+        self.max_ss = int(config[HqMachineConfig.taker_key]["MaxSS"])
 
 class AppConfig:
 
