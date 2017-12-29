@@ -12,7 +12,7 @@ import traceback
 import requests
 
 from util import Console
-from configs import GlobalConfig, HqConfig
+from configs import HqConfig
 from imaging import ImagingSystem
 
 path_full_photo = "/pics/{4}_{0}_{1:04d}_{2:02d}_{3}.jpg"
