@@ -62,13 +62,14 @@ def take_best_picture_remembering(app_cfg, system, machine_cfg):
     files = {"form_input_field_name1": open(path_final, "rb")}
     requests.post(url, files=files)
 
-    hqurl = "{0}/api/machines/picture/upload"
+    hqurl = "{0}/api/machines/picture/upload".format(app_cfg.url_hq)
     headers = {
         "HqTakerName": app_cfg.taker_name,
         "HqApiKey": app_cfg.api_key,
         "HqIdMachine": machine_cfg.id,
         "HqTakenTime": takenTime.strftime("%Y-%m-%d %H:%M:%S"),
     }
+    files = {"form_input_field_name1": open(path_final, "rb")}
     requests.post(hqurl, files=files, headers=headers)
     os.remove(path_final)
 
