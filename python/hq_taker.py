@@ -20,7 +20,7 @@ path_cropped = "{0}{1}_{2}.jpg"
 url_ws = "http://wash.ericmas001.com"
 config_path = "/etc/hq_machines_taker.cfg"
 
-def take_best_picture_remembering(app_config, system, machine_cfg):
+def take_best_picture_remembering(app_cfg, system, machine_cfg):
     machine_key = machine_cfg.display_name
 
     Console.WriteLine("-------------------------------------------------")
@@ -32,8 +32,9 @@ def take_best_picture_remembering(app_config, system, machine_cfg):
 
     current = system.take_best_picture_ever(machine_cfg)
 
-    filename = datetime.today().strftime("%Y-%m-%d_%H.%M.%S")
-    path_final = path_cropped.format(app_config.root_path, machine_key.lower(), filename)
+    takenTime = datetime.today()
+    filename = takenTime.strftime("%Y-%m-%d_%H.%M.%S")
+    path_final = path_cropped.format(app_cfg.root_path, machine_key.lower(), filename)
 
     Console.WriteLine("[{0}] Finished because {1}: {2}",
                       datetime.today().strftime("%Y-%m-%d %H:%M:%S"),
@@ -41,7 +42,7 @@ def take_best_picture_remembering(app_config, system, machine_cfg):
                       path_final)
 
     if machine_cfg.must_save_full_pic:
-        full_image_path = path_full_photo.format(app_config.root_path,
+        full_image_path = path_full_photo.format(app_cfg.root_path,
                                                  machine_key,
                                                  filename,
                                                  int(current.shutter_speed),
@@ -61,6 +62,14 @@ def take_best_picture_remembering(app_config, system, machine_cfg):
     files = {"form_input_field_name1": open(path_final, "rb")}
     requests.post(url, files=files)
 
+    hqurl = "{0}/api/machines/picture/upload"
+    headers = {
+        "HqTakerName": app_cfg.taker_name,
+        "HqApiKey": app_cfg.api_key,
+        "HqIdMachine": machine_cfg.id,
+        "HqTakenTime": takenTime.strftime("%Y-%m-%d %H:%M:%S"),
+    }
+    requests.post(hqurl, files=files, headers=headers)
     os.remove(path_final)
 
 def get_config(app_cfg):
