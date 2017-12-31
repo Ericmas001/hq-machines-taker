@@ -2,7 +2,6 @@
 
 import subprocess
 from datetime import datetime
-import tzlocal
 import sys
 from picamera import PiCamera
 import io
@@ -33,7 +32,7 @@ def take_best_picture_remembering(app_cfg, system, machine_cfg):
 
     current = system.take_best_picture_ever(machine_cfg)
 
-    takenTime = datetime.now(tzlocal.get_localzone())
+    takenTime = datetime.today()
     filename = takenTime.strftime("%Y-%m-%d_%H.%M.%S")
     path_final = path_cropped.format(app_cfg.root_path, machine_key.lower(), filename)
 
@@ -76,7 +75,7 @@ def take_best_picture_remembering(app_cfg, system, machine_cfg):
 
 def get_config(app_cfg):
     Console.WriteLine("[{0}] Get config from WS",
-                      datetime.today().strftime("%Y-%m-%d %H:%M:%S %Z"))
+                      datetime.today().strftime("%Y-%m-%d %H:%M:%S"))
     hqurl = "{0}/api/machines/config/list/{1}/{2}".format(app_cfg.url_hq, app_cfg.taker_name, app_cfg.api_key)
     hq_cfg = requests.get(hqurl).json()
     return HqConfig(hq_cfg)
