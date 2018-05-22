@@ -66,7 +66,7 @@ def take_best_picture_remembering(app_cfg, system, machine_cfg):
     headers = {
         "HqTakerName": app_cfg.taker_name,
         "HqApiKey": app_cfg.api_key,
-        "HqIdMachine": machine_cfg.id,
+        "HqIdMachine": str(machine_cfg.id),
         "HqTakenTime": takenTime.strftime("%Y-%m-%d %H:%M:%S"),
     }
     files = {"form_input_field_name1": open(path_final, "rb")}
