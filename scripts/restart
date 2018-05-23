@@ -1,0 +1,3 @@
+echo '>>>>>>>>>>>>> KILLED'
+/pics/hq-machines-taker/python/hq_taker.py >> /pics/log.txt &
+

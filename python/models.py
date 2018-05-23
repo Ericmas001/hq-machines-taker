@@ -1,5 +1,5 @@
-import Image
-import ImageStat
+from PIL import Image
+from PIL import ImageStat
 
 
 class TakenPicture:

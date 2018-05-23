@@ -5,7 +5,7 @@ from datetime import datetime
 import sys
 from picamera import PiCamera
 import io
-import Image
+from PIL import Image
 import json
 import os
 import traceback
