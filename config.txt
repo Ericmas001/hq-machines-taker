@@ -1,0 +1,50 @@
+** You must deactivate ETH0 for wlan0 to work on PiZero
+
+sudo apt-get install python python-dev python-setuptools python-pip git libffi-dev libssl-dev libjpeg-dev -y
+sudo pip install --upgrade pip
+sudo pip install --upgrade setuptools
+sudo pip install --upgrade wheel
+sudo pip list --outdated
+sudo pip install --upgrade {each one}
+sudo pip install picamera
+sudo pip install pillow
+sudo pip install image
+
+mkdir /pics
+sudo chmod 777 /pics
+cd /pics
+mkdir logs
+
+sudo usermod -a -G video pi
+
+git config --global user.email "{Email}"
+git config --global user.name "{Name}"
+git clone https://github.com/Ericmas001/hq-machines-taker
+sudo nano /etc/hq_machines_taker.cfg
+
+{
+    "taker_name": "{name}",
+    "api_key": "{key}",
+    "url_hq": "https://house-hq.com",
+    "root_path": "/pics/"
+}
+
+crontab -e
+
+59 23 * * * /pics/hq-machines-taker/scripts/renamelog.py
+* * * * * wget https://house-hq.com/api/devices/alive/{device}/{deviceKey} -qO- > /dev/null
+@reboot /pics/hq-machines-taker/python/hq_taker.py >> /pics/log.txt
+*/5 * * * * /pics/hq-machines-taker/scripts/restart >> /pics/log.txt
+
+sudo apt-get install samba samba-common-bin -y
+sudoedit /etc/samba/smb.conf
+
+#============================ Share Definitions ==============================
+[Pics]
+path = /pics
+browsable =yes
+writable = yes
+guest ok = yes
+read only = no
+
+sudo reboot
